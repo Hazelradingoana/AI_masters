@@ -11,6 +11,7 @@ from tools.iconfonts import register
 from kivy.core.window import Window
 from multiprocessing.dummy import Process
 from kivy.clock import Clock
+from kivy.uix.screenmanager import Screen, ScreenManager
 
 
 Window.size = (350, 600)
@@ -20,17 +21,26 @@ Config.set("kivy", "exit_on_escape", "0")
 Window.softinput_mode = 'below_target'
 
 class Career_path(MDApp):
+    def build(self):
+        # Create the ScreenManager
+        sm = ScreenManager()
 
-    def __init__(self,**kwargs):
-        super().__init__(**kwargs)
-        self.theme_cls.primary_palette = "Pink"
+        # Add screens to the ScreenManager
+        sm.add_widget(lo(name='home'))
+        sm.add_widget(SecondScreen(name='second'))
+
+        return sm
+
+    # def __init__(self,**kwargs):
+    #     super().__init__(**kwargs)
+    #     self.theme_cls.primary_palette = "Pink"
  
 
-#         # app files
-        self.PYTHON_FILES = "UserProfile/libpy/"
-        self.KIVY_FILES = "UserProfile/libkv/"
-        self.PYTHON_WIDGET_FILES = "UserProfile/widgetpy/"
-        self.KIVY_WIDGET_FILES = "UserProfile/widgetkv/"
+    #   # app files
+    #     self.PYTHON_FILES = "UserProfile/libpy/"
+    #     self.KIVY_FILES = "UserProfile/libkv/"
+    #     self.PYTHON_WIDGET_FILES = "UserProfile/widgetpy/"
+    #     self.KIVY_WIDGET_FILES = "UserProfile/widgetkv/"
 
           
 
@@ -42,54 +52,54 @@ class Career_path(MDApp):
     
 
     
-    def on_start(self):
-        Process(target=self.initiate_load_sequence).start()
+    # def on_start(self):
+    #     Process(target=self.initiate_load_sequence).start()
 
-    def initiate_load_sequence(self):
-        sleep(3)
-        self.load_screens()
-        self.load_widgets()
-        Clock.schedule_once(
-            lambda x: exec("self.root.ids.manager.add_widget(Factory.Manager())", {"self": self, "Factory": Factory}))
-        Clock.schedule_once(
-            lambda x: exec("self.root.current = 'manager'", {"self": self}))
-        Clock.schedule_once(
-            lambda x: exec("self.root.ids.manager.children[0].current = 'login'", {"self": self}), timeout=2)
+    # def initiate_load_sequence(self):
+    #     sleep(3)
+    #     self.load_screens()
+    #     self.load_widgets()
+    #     Clock.schedule_once(
+    #         lambda x: exec("self.root.ids.manager.add_widget(Factory.Manager())", {"self": self, "Factory": Factory}))
+    #     Clock.schedule_once(
+    #         lambda x: exec("self.root.current = 'manager'", {"self": self}))
+    #     Clock.schedule_once(
+    #         lambda x: exec("self.root.ids.manager.children[0].current = 'login'", {"self": self}), timeout=2)
 
 
 
-    def load_screens(self):
-        # -------- import python screens -------- #
-        libpy = os.listdir(self.PYTHON_FILES)
+    # def load_screens(self):
+    #     # -------- import python screens -------- #
+    #     libpy = os.listdir(self.PYTHON_FILES)
 
-        for modules in libpy:
-            # if modules == "m_cardtextfield":
-            #     continue
-            exec(f"from UserProfile.libpy import {modules.split('.')[0]}")
-        # -------------------------------- #
+    #     for modules in libpy:
+    #         # if modules == "m_cardtextfield":
+    #         #     continue
+    #         exec(f"from UserProfile.libpy import {modules.split('.')[0]}")
+    #     # -------------------------------- #
 
-        # ---------- load kivy screens ---------- #
-        libkv = os.listdir(self.KIVY_FILES)
-        for kv in libkv:
-            Builder.load_file(f"{self.KIVY_FILES}{kv}")
+    #     # ---------- load kivy screens ---------- #
+    #     libkv = os.listdir(self.KIVY_FILES)
+    #     for kv in libkv:
+    #         Builder.load_file(f"{self.KIVY_FILES}{kv}")
         
     
 
 
-    def load_widgets(self):
-        #import python screens 
-        libpy = os.listdir(self.PYTHON_WIDGET_FILES)
+    # def load_widgets(self):
+    #     #import python screens 
+    #     libpy = os.listdir(self.PYTHON_WIDGET_FILES)
 
-        for modules in libpy:
-            # if modules == "m_cardtextfield":
-            #     continue
-            exec(f"from UserProfile.libpy import {modules.split('.')[0]}")
+    #     for modules in libpy:
+    #         # if modules == "m_cardtextfield":
+    #         #     continue
+    #         exec(f"from UserProfile.libpy import {modules.split('.')[0]}")
       
 
-        # load kivy screens
-        libkv = os.listdir(self.KIVY_WIDGET_FILES)
-        for kv in libkv:
-            Builder.load_file(f"{self.KIVY_WIDGET_FILES}{kv}")
+    #     # load kivy screens
+    #     libkv = os.listdir(self.KIVY_WIDGET_FILES)
+    #     for kv in libkv:
+    #         Builder.load_file(f"{self.KIVY_WIDGET_FILES}{kv}")
        
     
 

@@ -1,0 +1,131 @@
+#:kivy 2.2.1
+WindowManager:
+    LoginScreen:
+    SignUpScreen:
+    QuizScreen:
+
+<LoginScreen>:
+    name: "login_screen"
+
+    MDBoxLayout:
+        orientation: "vertical"
+        md_bg_color:1, 0.7529, 0.7961
+        MDBoxLayout:
+            orientation: "vertical"
+            padding: dp(25)
+            spacing: dp(25)
+            md_bg_color: 1, 1, 1, 1
+            radius: 0, 0, dp(130), dp(130)
+
+        MDTextField:
+            id: email_input
+            hint_text: "Email"
+            helper_text_mode: "on_focus"
+            icon_right: "email"
+            required: True
+            size_hint_x: 0.7
+            pos_hint: {"center_x": 0.5,"center_y": 0.5}
+            
+        MDTextField:
+            id: password_input
+            hint_text: "Password"
+            helper_text_mode: "on_focus"
+            icon_right: "lock"
+            required: True
+            password: True
+            size_hint_x: 0.7
+            pos_hint: {"center_x": 0.5}
+
+        MDLabel:
+            id: login_error
+            text: ""
+            theme_text_color: "Error"
+            halign: "center"
+
+        MDRaisedButton:
+            text: "Login"
+            size_hint_x: 0.5
+            pos_hint: {"center_y": .5, "center_x": .5}
+            on_release: root.do_login()
+
+        MDRoundFlatButton:
+            text: "Sign Up"
+            size_hint_x: 0.5
+            pos_hint: {"center_x": 0.5}
+            on_release: app.root.current = "signup_screen"
+
+<SignUpScreen>:
+    name: "signup_screen"
+
+    MDBoxLayout:
+        orientation: "vertical"
+        md_bg_color:1, 0.7529, 0.7961
+        padding: dp(25)
+        spacing: dp(25)
+        radius: 0, 0, dp(150), dp(150)
+        
+
+        MDTextField:
+            id: username_input
+            hint_text: "Firstname"
+            helper_text_mode: "on_focus"
+            icon_right: "account"
+            required: True
+            size_hint_x: 0.8
+            pos_hint: {"center_x": 0.5}
+
+        MDTextField:
+            id: surname_input
+            hint_text: "Surname"
+            helper_text_mode: "on_focus"
+            icon_right: "account"
+            required: True
+            size_hint_x: 0.8
+            pos_hint: {"center_x": 0.5}
+
+        MDTextField:
+            id: email_input
+            hint_text: "Email"
+            helper_text_mode: "on_focus"
+            helper_text: "user@gmail.com"
+            icon_right: "email"
+            validator: "email"
+            required: True
+            size_hint_x: 0.8
+            pos_hint: {"center_x": 0.5}
+        MDTextField:
+            id: password_input
+            hint_text: "Password"
+            helper_text_mode: "on_focus"
+            required: True
+            icon_right: "lock"
+            password: True
+            size_hint_x: 0.8
+            pos_hint: {"center_x": 0.5}
+
+        MDLabel:
+            id: signup_error
+            text: ""
+            theme_text_color: "Error"
+            halign: "center"
+
+        MDRaisedButton:
+            text: "Sign Up"
+            size_hint_x: 0.5
+            pos_hint: {"center_x": 0.5}
+            on_release: root.do_signup()
+
+<QuizScreen>:
+    name: "quiz_screen"
+
+    MDFloatLayout:
+        MDLabel:
+            text: "Quiz Screen"
+            halign: "center"
+            pos_hint: {"center_x": 0.5, "center_y": 0.8}
+
+        MDRaisedButton:
+            text: "Logout"
+            size_hint_x: 0.5
+            pos_hint: {"center_x": 0.5, "center_y": 0.2}
+            on_release: app.root.current = "login_screen"
