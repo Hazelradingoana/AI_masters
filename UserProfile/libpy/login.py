@@ -1,4 +1,4 @@
-from kivy.uix.screenmanager import ScreenManager
+from kivy.uix.screenmanager import Screen
 
-class Login(ScreenManager):
+class Login(Screen):
     pass

@@ -1,29 +1,23 @@
 #:kivy 2.2.1
 ScreenManager:
-#This manager will manager the slope page. A welcome page
     Screen:
         name: "init"
         BoxLayout:
             orientation: "vertical"
             canvas.before:
                 Color:
-                    rgba: 1, 0.7529, 0.7961 # Adjust the RGBA values to set your desired background color
+                    rgba: 1, 0.7529, 0.7961, 0.6 # Adjust the RGBA values to set your desired background color
                 Rectangle:
                     pos: self.pos
                     size: self.size
-                    source: 'assets/image/logo.png'
                     
-                
-            # Image:
-            #     source: 'assets/image/logo.png'
-            #     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-            
-            #MDLabel:
-                #text: "BESTIE"
-                #color: app.theme_cls.primary_color
-                #halign: "center"
-               # markup: True
-                #font_style: "H3"
+                    
+            MDLabel:
+                text: "AI_MASTERS"
+                color: app.theme_cls.primary_color
+                halign: "center"
+                markup: True
+                font_style: "H4"
 
         BoxLayout:
             orientation: "vertical"
@@ -35,7 +29,7 @@ ScreenManager:
                     size_hint_x:.5
                     size_hint_y: None
                     height: dp(2)
-                    pos_hint:{"center_x": .5, "center_y": .2}
+                    pos_hint:{"center_x": .5, "center_y": .1}
                     on_kv_post:
                         self.start()
 
