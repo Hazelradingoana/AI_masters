@@ -16,43 +16,55 @@ WindowManager:
             spacing: dp(25)
             md_bg_color: 1, 1, 1, 1
             radius: 0, 0, dp(130), dp(130)
+            MDBoxLayout:
+                orientation: "vertical"
+                spacing: dp(25)
+                # padding: dp(20), dp(10), dp(20), dp(100)
+                radius: 0, 0, dp(50), dp(50)
 
-        MDTextField:
-            id: email_input
-            hint_text: "Email"
-            helper_text_mode: "on_focus"
-            icon_right: "email"
-            required: True
-            size_hint_x: 0.7
-            pos_hint: {"center_x": 0.5,"center_y": 0.5}
+
+                MDLabel:
+                    id: logo
+                    text: "TECH HER"
+                    halign: "center"
+                    
+
+                MDTextField:
+                    id: email_input
+                    hint_text: "Email"
+                    helper_text_mode: "on_focus"
+                    icon_right: "email"
+                    required: True
+                    size_hint_x: 0.7
+                    pos_hint: {"center_x": 0.5,"center_y": 0.5}
             
-        MDTextField:
-            id: password_input
-            hint_text: "Password"
-            helper_text_mode: "on_focus"
-            icon_right: "lock"
-            required: True
-            password: True
-            size_hint_x: 0.7
-            pos_hint: {"center_x": 0.5}
+                MDTextField:
+                    id: password_input
+                    hint_text: "Password"
+                    helper_text_mode: "on_focus"
+                    icon_right: "lock"
+                    required: True
+                    password: True
+                    size_hint_x: 0.7
+                    pos_hint: {"center_x": 0.5}
 
-        MDLabel:
-            id: login_error
-            text: ""
-            theme_text_color: "Error"
-            halign: "center"
+                MDLabel:
+                    id: login_error
+                    text: ""
+                    theme_text_color: "Error"
+                    halign: "center"
 
-        MDRaisedButton:
-            text: "Login"
-            size_hint_x: 0.5
-            pos_hint: {"center_y": .5, "center_x": .5}
-            on_release: root.do_login()
+                MDRaisedButton:
+                    text: "Login"
+                    size_hint_x: 0.5
+                    pos_hint: {"center_y": .5, "center_x": .5}
+                    on_release: root.do_login()
 
-        MDRoundFlatButton:
-            text: "Sign Up"
-            size_hint_x: 0.5
-            pos_hint: {"center_x": 0.5}
-            on_release: app.root.current = "signup_screen"
+                MDRaisedButton:
+                    text: "Sign Up"
+                    size_hint_x: 0.5
+                    pos_hint: {"center_x": 0.5}
+                    on_release: app.root.current = "signup_screen"
 
 <SignUpScreen>:
     name: "signup_screen"
@@ -117,15 +129,39 @@ WindowManager:
 
 <QuizScreen>:
     name: "quiz_screen"
+    BoxLayout:
+        orientation: "vertical"
 
-    MDFloatLayout:
-        MDLabel:
-            text: "Quiz Screen"
-            halign: "center"
-            pos_hint: {"center_x": 0.5, "center_y": 0.8}
+        BoxLayout:
+            orientation: "vertical"
 
-        MDRaisedButton:
-            text: "Logout"
-            size_hint_x: 0.5
-            pos_hint: {"center_x": 0.5, "center_y": 0.2}
-            on_release: app.root.current = "login_screen"
+            MDRaisedButton:
+                text: "Start Quiz"
+                on_release: app.show_next_question()
+
+        MDNavigationDrawer:
+            BoxLayout:
+                orientation: "vertical"
+
+                ScrollView:
+                    MDList:
+                        OneLineIconListItem:
+                            text: "Home"
+                            IconLeftWidget:
+                                icon: "home"
+
+                        OneLineIconListItem:
+                            text: "Settings"
+                            IconLeftWidget:
+                                icon: "settings"
+
+                        OneLineIconListItem:
+                            text: "About"
+                            IconLeftWidget:
+                                icon: "information"
+
+                        OneLineIconListItem:
+                            text: "Exit"
+                            IconLeftWidget:
+                                icon: "exit-to-app"
+                                on_release: app.stop()
