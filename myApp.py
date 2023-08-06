@@ -5,28 +5,44 @@ from kivymd.uix.dialog import MDDialog
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
+from new import CareerRecommendationApp
+from Databases.questionsDB import Base, UserResponse,save_responses
+from sqlalchemy import create_engine, Column, Integer, String, Boolean
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
 Window.size = (350, 600)
 # Define the data file where user profiles will be stored
 USER_DATA_FILE = "user_profiles.json"
+engine = create_engine('sqlite:///user_answers.db')
+
 
 # Create a dictionary to store user profiles
 user_profiles = {}
 login_details = {}
 # Define the quiz questions and answers
-questions = [
-    {
-        "question": "Are you detailed oriented?",
-        "answer": True,
-    },
-    {
-        "question": "Are you a team player?",
-        "answer": True,
-    },
-    {
-        "question": "Are you a creative and critical thinker?",
-        "answer": False,
-    },
-]
+
+def read_questions_from_file(filename):
+    with open(filename, 'r') as file:
+        return [line.strip() for line in file]
+
+
+questions = read_questions_from_file("Questions.txt")
+
+# questions = [
+#     {
+#         "question": "Are you detailed oriented?",
+#         "answer": True,
+#     },
+#     {
+#         "question": "Are you a team player?",
+#         "answer": True,
+#     },
+#     {
+#         "question": "Are you a creative and critical thinker?",
+#         "answer": False,
+#     },
+# ]
 
 
 class LoginScreen(Screen):
@@ -84,16 +100,36 @@ class MyApp(MDApp):
                 user_profiles = json.load(f)
         except FileNotFoundError:
             pass
+        
     def show_next_question(self):
         if self.index < len(questions):
             self.show_question(questions[self.index])
             self.index += 1
         else:
-            self.show_result()
-    def show_question(self, question):
+            # self.save_responses(self.response)  
+            career_app = mmCareerRecommendationApp()
+            
+    def save_responses(self,response):
+        Base.metadata.create_all(engine)
 
+        # Create a session to interact with the database
+        Session = sessionmaker(bind=engine)
+        session = Session()
+
+        # Insert the responses into the database
+        for i, response in enumerate(self.responses):
+            question = self.questions[i]
+            user_response = UserResponse(question=question, response=response)
+            session.add(user_response)
+
+        # Commit the changes and close the session
+        session.commit()
+        session.close()
+
+
+    def show_question(self, question):
         self.dialog = MDDialog(
-            title=question["question"],
+            title=question,
             buttons=[
                 MDRaisedButton(text="YES", on_release=self.check_answer),
                 MDRaisedButton(text="NO", on_release=self.check_answer),
@@ -101,29 +137,25 @@ class MyApp(MDApp):
         )
         self.dialog.open()
 
+        
     def check_answer(self, instance):
-        answer = instance.text == "YES"
+        if self.index <= 0 or self.index > len(questions):
+        # Invalid index, maybe the user tried to access the answer without showing the question.
+            return
 
-        correct_answer = questions[self.index - 1]["answer"]
         self.dialog.dismiss()
-
-        # if answer == correct_answer:
-        #     title = "Correct!"
-        # else:
-        #     title = "Incorrect!"
-
-        # self.dialog = MDDialog(title=title, text=f"The answer is {correct_answer}.")
-        # self.dialog.open()
-
         self.show_next_question()
-
-    def show_result(self):
-        correct_answers = sum(question["answer"] for question in questions)
-        total_questions = len(questions)
-        result = f"You scored {correct_answers} out of {total_questions} questions correctly."
-        self.dialog = MDDialog(title="Quiz Result", text=result)
-        self.dialog.open()
+        
+   
+    # def show_result(self):
+    #     CareerRecommendationApp(MDApp)
+    #     correct_answers = sum(question["answer"] for question in questions)
+    #     total_questions = len(questions)
+    #     result = f"You scored {correct_answers} out of {total_questions} questions correctly."
+    #     self.dialog = MDDialog(title="Quiz Result", text=result)
+    #     self.dialog.open()
 
 
 if __name__ == "__main__":
     MyApp().run()
+    
