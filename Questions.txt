@@ -1,0 +1,10 @@
+1. Do you enjoy solving problems and puzzles?
+2. Are you interested in learning programming languages?
+3. Do you like working with computers and technology?
+4. Are you curious about how software and applications work?
+5. Do you enjoy exploring and analyzing data?
+6. Are you interested in building and designing websites or apps?
+7. Do you have an interest in artificial intelligence and machine learning?
+8. Are you passionate about cybersecurity and protecting data?
+9. Do you enjoy working with databases and organizing information?
+10. Are you interested in user interface (UI) and user experience (UX) design?
