@@ -107,13 +107,13 @@ class MyApp(MDApp):
         correct_answer = questions[self.index - 1]["answer"]
         self.dialog.dismiss()
 
-        if answer == correct_answer:
-            title = "Correct!"
-        else:
-            title = "Incorrect!"
+        # if answer == correct_answer:
+        #     title = "Correct!"
+        # else:
+        #     title = "Incorrect!"
 
-        self.dialog = MDDialog(title=title, text=f"The answer is {correct_answer}.")
-        self.dialog.open()
+        # self.dialog = MDDialog(title=title, text=f"The answer is {correct_answer}.")
+        # self.dialog.open()
 
         self.show_next_question()
 
